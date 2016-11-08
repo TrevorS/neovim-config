@@ -31,19 +31,12 @@ endif
 
 set guifont=Fira\ Code
 
-" deoplete update helper
-function! UpdateDeoplete(arg)
-  UpdateRemotePlugins
-endfunction
-
 call plug#begin($HOME . '/.config/nvim/plugged')
+
 " junegunn
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
-
-" shougo
-Plug 'shougo/deoplete.nvim', { 'do': function('UpdateDeoplete') }
 
 " tpope
 Plug 'tpope/vim-rails'
@@ -57,12 +50,10 @@ Plug 'tpope/vim-vinegar'
 
 " ruby
 Plug 'vim-ruby/vim-ruby'
-Plug 'fishbullet/deoplete-ruby'
 
 " javascript
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'carlitux/deoplete-ternjs'
 
 " elixir
 Plug 'elixir-lang/vim-elixir'
@@ -74,6 +65,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'neomake/neomake'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'itchyny/lightline.vim'
+Plug 'ervandew/supertab'
 
 " themes
 Plug 'nanotech/jellybeans.vim'
@@ -93,6 +85,7 @@ augroup file_specific_settings
   autocmd BufWritePre * StripWhitespace
   autocmd VimEnter * CurrentLineWhitespaceOff soft
   autocmd! BufWritePost,BufEnter * Neomake
+  autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 1
 augroup END
 
 " disable automatic commenting
@@ -139,6 +132,21 @@ nnoremap <silent> <leader>p :call fzf#run({ 'source': 'ag -g ""', 'sink': 'e', '
 " easy align
 vmap <silent> <cr> <Plug>(EasyAlign)
 
+" ag
+nnoremap <leader>a :Ag<space>
+
+" copy/paste from system clipboard (osx)
+noremap <silent> <leader>sy "*y
+noremap <silent> <leader>sp "*p
+noremap <silent> <leader>sY "*y
+noremap <silent> <leader>sP "*P
+
+" grep under cursor
+nnoremap <silent> <leader>* :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" configure grep to use ag
+set grepprg=ag\ --nogroup\ --nocolor
+
 " vim-ruby
 let ruby_operators = 1
 let g:rubycomplete_buffer_loading = 1
@@ -146,9 +154,6 @@ let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
 
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
