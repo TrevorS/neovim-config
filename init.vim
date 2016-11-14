@@ -29,7 +29,9 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set guifont=Fira\ Code
+if (has("guifont"))
+  set guifont=Fira\ Code
+endif
 
 call plug#begin($HOME . '/.config/nvim/plugged')
 
@@ -60,6 +62,12 @@ Plug 'elixir-lang/vim-elixir'
 
 " rust
 Plug 'rust-lang/rust.vim'
+
+" swift
+Plug 'keith/swift.vim'
+
+" vue
+Plug 'kikyous/vim-vue-1'
 
 " utilities
 Plug 'neomake/neomake'
@@ -128,6 +136,9 @@ nnoremap <silent> <c-u> <c-u>zz
 
 " fzf
 nnoremap <silent> <leader>p :call fzf#run({ 'source': 'ag -g ""', 'sink': 'e', 'window': 'enew' })<cr>
+nnoremap <leader>fa :Ag<space>
+nnoremap <leader>ft :Tags<cr>
+nnoremap <leader>fb :BCommits<cr>
 
 " easy align
 vmap <silent> <cr> <Plug>(EasyAlign)
@@ -154,8 +165,6 @@ let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
-
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " lightline
 let g:lightline = {
