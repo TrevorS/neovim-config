@@ -29,7 +29,9 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set guifont=Fira\ Code
+if (has("guifont"))
+  set guifont=Fira\ Code
+endif
 
 call plug#begin($HOME . '/.config/nvim/plugged')
 
