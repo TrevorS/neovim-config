@@ -108,7 +108,9 @@ nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q :quit<cr>
 nnoremap <silent> <leader>Q :qall<cr>
 
-nnoremap <silent> <bs> <C-w>h
+" no longer need to bind backspace after running:
+" infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+" tic $TERM.ti
 nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
