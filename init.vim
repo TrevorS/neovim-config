@@ -33,6 +33,8 @@ if (has("guifont"))
   set guifont=Fira\ Code
 endif
 
+set inccommand=nosplit
+
 call plug#begin($HOME . '/.config/nvim/plugged')
 
 " junegunn
