@@ -161,8 +161,6 @@ let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
 
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
 " lightline
 let g:lightline = {
 			\ 'colorscheme': 'jellybeans',
