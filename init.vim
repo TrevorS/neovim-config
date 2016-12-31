@@ -33,6 +33,8 @@ if (has("guifont"))
   set guifont=Fira\ Code
 endif
 
+set inccommand=nosplit
+
 call plug#begin($HOME . '/.config/nvim/plugged')
 
 " junegunn
@@ -62,12 +64,6 @@ Plug 'elixir-lang/vim-elixir'
 
 " rust
 Plug 'rust-lang/rust.vim'
-
-" swift
-Plug 'keith/swift.vim'
-
-" vue
-Plug 'kikyous/vim-vue-1'
 
 " utilities
 Plug 'neomake/neomake'
@@ -114,7 +110,9 @@ nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q :quit<cr>
 nnoremap <silent> <leader>Q :qall<cr>
 
-nnoremap <silent> <bs> <C-w>h
+" no longer need to bind backspace after running:
+" infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+" tic $TERM.ti
 nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
@@ -136,9 +134,6 @@ nnoremap <silent> <c-u> <c-u>zz
 
 " fzf
 nnoremap <silent> <leader>p :call fzf#run({ 'source': 'ag -g ""', 'sink': 'e', 'window': 'enew' })<cr>
-nnoremap <leader>fa :Ag<space>
-nnoremap <leader>ft :Tags<cr>
-nnoremap <leader>fb :BCommits<cr>
 
 " easy align
 vmap <silent> <cr> <Plug>(EasyAlign)
@@ -165,6 +160,8 @@ let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
+
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " lightline
 let g:lightline = {
