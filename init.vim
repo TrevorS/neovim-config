@@ -58,6 +58,7 @@ Plug 'vim-ruby/vim-ruby'
 " javascript
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'mxw/vim-jsx'
 
 " elixir
 Plug 'elixir-lang/vim-elixir'
@@ -160,6 +161,9 @@ let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
+
+" vim-jsx
+let g:jsx_ext_required = 0
 
 " lightline
 let g:lightline = {
