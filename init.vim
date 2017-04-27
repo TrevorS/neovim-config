@@ -62,6 +62,7 @@ Plug 'mxw/vim-jsx'
 
 " elixir
 Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 
 " rust
 Plug 'rust-lang/rust.vim'
@@ -164,6 +165,12 @@ let g:rubycomplete_use_bundler = 1
 
 " vim-jsx
 let g:jsx_ext_required = 0
+
+" neomake
+let g:neomake_ruby_enabled_makers = []
+
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
 
 " lightline
 let g:lightline = {
