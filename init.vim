@@ -72,6 +72,8 @@ Plug 'neomake/neomake'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'itchyny/lightline.vim'
 Plug 'ervandew/supertab'
+Plug 'hashivim/vim-terraform'
+Plug 'christoomey/vim-tmux-navigator'
 
 " themes
 Plug 'nanotech/jellybeans.vim'
@@ -101,6 +103,7 @@ set formatoptions-=cro
 " keybindings
 let mapleader = "\<Space>"
 
+nnoremap <silent> <leader>et :edit $HOME/.tmux.conf<cr>
 nnoremap <silent> <leader>ez :edit $HOME/.zshrc<cr>
 nnoremap <silent> <leader>ev :edit $MYVIMRC<cr>
 nnoremap <silent> <leader>sv :source $MYVIMRC<cr>
