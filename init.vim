@@ -1,4 +1,4 @@
-" neovim settings
+" general settings
 set number
 set smartindent
 set expandtab
@@ -18,91 +18,184 @@ set undoreload=10000
 set undodir=$HOME/.config/nvim/undo
 
 set wildmode=longest,list:longest
-set tags+=./.git/tags
+set inccommand=nosplit
 
 set lazyredraw
 set noshowmode
+set cursorline
 
 set noerrorbells visualbell t_vb=
-
-if (has("termguicolors"))
-  set termguicolors
-endif
-
-if (has("guifont"))
-  set guifont=Fira\ Code
-endif
-
-set inccommand=nosplit
-
-call plug#begin($HOME . '/.config/nvim/plugged')
-
-" junegunn
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align'
-
-" tpope
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-vinegar'
-
-" ruby
-Plug 'vim-ruby/vim-ruby'
-
-" javascript
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mxw/vim-jsx'
-
-" elixir
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
-
-" rust
-Plug 'rust-lang/rust.vim'
-
-" utilities
-Plug 'neomake/neomake'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'itchyny/lightline.vim'
-Plug 'ervandew/supertab'
-Plug 'hashivim/vim-terraform'
-Plug 'christoomey/vim-tmux-navigator'
-
-" themes
-Plug 'nanotech/jellybeans.vim'
-call plug#end()
-
-" theme
-set background=dark
-colorscheme jellybeans
-let g:jellybeans_use_term_italics = 1
-
-" file settings
-augroup file_specific_settings
-  autocmd!
-  autocmd FileType markdown setlocal spell
-  autocmd FileType gitcommit setlocal spell
-  autocmd BufRead,BufNewFile *.jbuilder setfiletype ruby
-  autocmd BufWritePre * StripWhitespace
-  autocmd VimEnter * CurrentLineWhitespaceOff soft
-  autocmd! BufWritePost,BufEnter * Neomake
-  autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 1
-augroup END
 
 " disable automatic commenting
 autocmd FileType * setlocal formatoptions-=cro
 set formatoptions-=cro
 
-" keybindings
+set mouse=a
+
+" plugins
+call plug#begin($HOME . '/.config/nvim/plugged')
+
+" junegunn
+Plug 'junegunn/fzf', {
+  \ 'dir': '~/.fzf',
+  \ 'do': './install --all',
+  \ }
+Plug 'junegunn/fzf.vim'
+
+" tpope
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+
+" languages
+Plug 'hashivim/vim-terraform'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'fatih/vim-go', {
+  \ 'do': ':GoInstallBinaries'
+  \ }
+
+" language server
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+
+" auto complete
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-go'
+Plug 'roxma/nvim-yarp'
+
+" linting
+Plug 'w0rp/ale'
+
+" lightline
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+
+" utilities
+Plug 'jremmen/vim-ripgrep'
+Plug 'sgur/vim-editorconfig'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'mhinz/vim-signify'
+Plug 'christoomey/vim-tmux-navigator'
+
+" themes
+Plug 'drewtempelmeyer/palenight.vim'
+
+call plug#end()
+
+" colorscheme
+set background=dark
+colorscheme palenight
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+let g:palenight_terminal_italics = 1
+
+" auto complete
+set completeopt=noinsert,menuone,noselect
+set shortmess+=c
+
+inoremap <c-c> <ESC>
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" language server
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['pyls'],
+  \ }
+
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+
+" ale
+let g:ale_sign_column_always = 1
+let g:ale_linters_explicit = 1
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 1
+let g:ale_set_highlights = 0
+
+let g:ale_sign_warning = ''
+let g:ale_sign_error = ''
+
+let g:ale_linters = {
+  \ 'python': ['flake8'],
+  \ 'go': ['gometalinter'],
+  \ }
+
+let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'python': ['autopep8'],
+  \ 'go': ['gofmt', 'goimports'],
+  \ }
+
+" lightline
+let g:lightline = {
+  \ 'colorscheme': 'palenight',
+  \ 'active': {
+  \   'left': [['mode', 'paste'],
+  \            ['fugitive', 'filename', 'filetype']],
+  \   'right': [['lineinfo'], ['percent'],
+  \             ['linter_errors', 'linter_warnings']],
+  \ },
+  \ 'component_function': {
+  \   'mode': 'LightLineMode',
+  \   'filename': 'LightLineFilename',
+  \   'fugitive': 'LightLineFugitive',
+  \   'fileformat': 'LightLineFileformat',
+  \   'filetype': 'LightLineFiletype',
+  \ },
+  \ 'component_expand': {
+  \   'linter_warnings': 'lightline#ale#warnings',
+  \   'linter_errors': 'lightline#ale#errors',
+  \ },
+  \ 'component_type': {
+  \   'linter_warnings': 'warning',
+  \   'linter_errors': 'error',
+  \ },
+  \ 'separator': { 'left': '', 'right': '' },
+	\ 'subseparator': { 'left': '', 'right': '' },
+  \ }
+
+let g:lightline#ale#indicator_warnings = ' '
+let g:lightline#ale#indicator_errors = ' '
+
+function! LightLineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! LightLineFilename()
+  let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+  let modified = &modified ? ' +' : ''
+  return filename . modified
+endfunction
+
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightLineFugitive()
+  let _ = fugitive#head()
+  return strlen(_) ? ' '._ : ''
+endfunction
+
+" standard keybindings
 let mapleader = "\<Space>"
 
+nnoremap <silent> <leader>ea :edit $HOME/.config/alacritty/alacritty.yml<cr>
 nnoremap <silent> <leader>et :edit $HOME/.tmux.conf<cr>
 nnoremap <silent> <leader>ez :edit $HOME/.zshrc<cr>
 nnoremap <silent> <leader>ev :edit $MYVIMRC<cr>
@@ -113,20 +206,13 @@ nnoremap <silent> <leader>v :vsplit<cr><c-w>l
 nnoremap <silent> <leader>h :split<cr><c-w>j
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q :quit<cr>
-nnoremap <silent> <leader>Q :qall<cr>
 
-" no longer need to bind backspace after running:
-" infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-" tic $TERM.ti
 nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
 nnoremap <silent> <c-l> <c-w>l
 
-cnoremap <c-a> <home>
-cnoremap <c-e> <end>
-cnoremap <c-f> <right>
-cnoremap <c-b> <left>
+nnoremap <silent> Y y$
 
 nnoremap <silent> j gj
 nnoremap <silent> k gk
@@ -137,103 +223,18 @@ nnoremap <silent> N Nzz
 nnoremap <silent> <c-d> <c-d>zz
 nnoremap <silent> <c-u> <c-u>zz
 
-" fzf
-nnoremap <silent> <leader>p :call fzf#run({ 'source': 'ag -g ""', 'sink': 'e', 'window': 'enew' })<cr>
-
-" easy align
-vmap <silent> <cr> <Plug>(EasyAlign)
-
-" ag
-nnoremap <leader>a :Ag<space>
-
-" copy/paste from system clipboard (osx)
 noremap <silent> <leader>sy "*y
-noremap <silent> <leader>sp "*p
-noremap <silent> <leader>sY "*y
-noremap <silent> <leader>sP "*P
 
-" grep under cursor
-nnoremap <silent> <leader>* :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+cnoremap <c-f> <right>
+cnoremap <c-b> <left>
 
-" configure grep to use ag
-set grepprg=ag\ --nogroup\ --nocolor
+" fzf
+nnoremap <silent> <leader>p :call fzf#run({ 'source': 'rg --files', 'sink': 'e', 'window': 'enew' })<cr>
 
-" vim-ruby
-let ruby_operators = 1
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
-let g:rubycomplete_load_gemfile = 1
-let g:rubycomplete_use_bundler = 1
+" rg
+nnoremap <leader>a :Rg<space>
 
-" vim-jsx
-let g:jsx_ext_required = 0
-
-" neomake
-let g:neomake_ruby_enabled_makers = []
-
-" supertab
-let g:SuperTabDefaultCompletionType = "context"
-
-" lightline
-let g:lightline = {
-			\ 'colorscheme': 'jellybeans',
-			\ 'mode_map': { 'c': 'NORMAL' },
-			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-			\   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-			\ },
-			\ 'component_function': {
-			\   'modified': 'LightLineModified',
-			\   'readonly': 'LightLineReadonly',
-			\   'fugitive': 'LightLineFugitive',
-			\   'filename': 'LightLineFilename',
-			\   'fileformat': 'LightLineFileformat',
-			\   'filetype': 'LightLineFiletype',
-			\   'fileencoding': 'LightLineFileencoding',
-			\   'mode': 'LightLineMode',
-			\ },
-			\ 'separator': { 'left': '', 'right': '' },
-			\ 'subseparator': { 'left': '', 'right': '' }
-			\ }
-
-function! LightLineModified()
-	return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightLineReadonly()
-	return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '' : ''
-endfunction
-
-function! LightLineFilename()
-	return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-				\ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-				\  &ft == 'unite' ? unite#get_status_string() :
-				\  &ft == 'vimshell' ? vimshell#get_status_string() :
-				\ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-				\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-	if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-		let _ = fugitive#head()
-		return strlen(_) ? ' '._ : ''
-	endif
-	return ''
-endfunction
-
-function! LightLineFileformat()
-	return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-	return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-	return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
+" format json
+nnoremap <leader>j :%!python -m json.tool<cr>
