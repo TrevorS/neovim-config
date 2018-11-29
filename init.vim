@@ -51,6 +51,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 
 " languages
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
 Plug 'hashivim/vim-terraform'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', {
@@ -97,6 +99,9 @@ endif
 
 let g:palenight_terminal_italics = 1
 
+" python remote plugin
+let g:python3_host_prog='/usr/local/miniconda3/bin/python'
+
 " auto complete
 set completeopt=noinsert,menuone,noselect
 set shortmess+=c
@@ -109,6 +114,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " language server
+let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
   \ 'python': ['pyls'],
   \ }
@@ -134,9 +140,12 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'python': ['autopep8'],
+  \ 'python': ['black'],
   \ 'go': ['gofmt', 'goimports'],
   \ }
+
+" gutentags
+let g:gutentags_exclude_filetypes = ['gitcommit', 'vim']
 
 " lightline
 let g:lightline = {
