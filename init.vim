@@ -51,10 +51,14 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 
 " languages
+Plug 'rust-lang/rust.vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 Plug 'hashivim/vim-terraform'
 Plug 'ekalinin/Dockerfile.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'jelera/vim-javascript-syntax'
 Plug 'fatih/vim-go', {
   \ 'do': ':GoInstallBinaries'
   \ }
@@ -117,6 +121,7 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
   \ 'python': ['pyls'],
+  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
   \ }
 
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
@@ -136,12 +141,23 @@ let g:ale_sign_error = ''
 let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'go': ['gometalinter'],
+  \ 'javascript': ['eslint'],
+  \ 'rust': ['cargo'],
   \ }
 
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'python': ['isort', 'black'],
   \ 'go': ['gofmt', 'goimports'],
+  \ 'rust': ['rustfmt'],
+  \ 'css': ['prettier'],
+  \ 'html': ['prettier'],
+  \ 'javascript': ['prettier'],
+  \ 'json': ['prettier'],
+  \ 'markdown': ['prettier'],
+  \ 'scss': ['prettier'],
+  \ 'typescript': ['prettier'],
+  \ 'yaml': ['prettier'],
   \ }
 
 " gutentags
