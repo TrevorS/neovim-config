@@ -58,6 +58,8 @@ Plug 'hashivim/vim-terraform'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'elixir-editors/vim-elixir'
+
 Plug 'jelera/vim-javascript-syntax'
 Plug 'fatih/vim-go', {
   \ 'do': ':GoInstallBinaries'
@@ -104,6 +106,7 @@ endif
 let g:palenight_terminal_italics = 1
 
 " python remote plugin
+let g:python_host_prog='/usr/local/bin/python2'
 let g:python3_host_prog='/usr/local/miniconda3/bin/python'
 
 " auto complete
@@ -122,6 +125,7 @@ let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
   \ 'python': ['pyls'],
   \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+  \ 'ruby': ['solargraph', 'stdio'],
   \ }
 
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
@@ -138,11 +142,14 @@ let g:ale_set_highlights = 0
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 
+let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+
 let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'go': ['gometalinter'],
   \ 'javascript': ['eslint'],
   \ 'rust': ['cargo'],
+  \ 'ruby': ['rubocop'],
   \ }
 
 let g:ale_fixers = {
