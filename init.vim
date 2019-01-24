@@ -157,6 +157,7 @@ let g:ale_fixers = {
   \ 'python': ['isort', 'black'],
   \ 'go': ['gofmt', 'goimports'],
   \ 'rust': ['rustfmt'],
+  \ 'ruby': ['rubocop', 'rufo'],
   \ 'css': ['prettier'],
   \ 'html': ['prettier'],
   \ 'javascript': ['prettier'],
