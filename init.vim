@@ -74,6 +74,8 @@ Plug 'autozimu/LanguageClient-neovim', {
 " auto complete
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
 Plug 'roxma/nvim-yarp'
 
 " linting
@@ -170,6 +172,9 @@ let g:ale_fixers = {
 
 " gutentags
 let g:gutentags_exclude_filetypes = ['gitcommit', 'vim']
+
+" signify
+let g:signify_vcs_list = ['git']
 
 " lightline
 let g:lightline = {
