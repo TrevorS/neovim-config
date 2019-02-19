@@ -59,6 +59,7 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'elixir-editors/vim-elixir'
+Plug 'ElmCast/elm-vim'
 
 Plug 'jelera/vim-javascript-syntax'
 Plug 'fatih/vim-go', {
