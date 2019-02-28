@@ -262,6 +262,9 @@ nnoremap <silent> N Nzz
 nnoremap <silent> <c-d> <c-d>zz
 nnoremap <silent> <c-u> <c-u>zz
 
+" Rg the word under the cursor
+nnoremap <silent> <leader>* :Rg "\b<C-R><C-W>\b"<CR>:cw<CR>
+
 noremap <silent> <leader>sy "*y
 
 cnoremap <c-a> <home>
