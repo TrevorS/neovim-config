@@ -60,6 +60,8 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'elixir-editors/vim-elixir'
 Plug 'ElmCast/elm-vim'
+Plug 'vim-scripts/groovy.vim'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 
 Plug 'jelera/vim-javascript-syntax'
 Plug 'fatih/vim-go', {
@@ -126,9 +128,10 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 " language server
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
+  \ 'elixir': ['~/bin/elixir-ls/language_server.sh'],
   \ 'python': ['pyls'],
-  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
   \ 'ruby': ['solargraph', 'stdio'],
+  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
   \ }
 
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
@@ -148,24 +151,26 @@ let g:ale_sign_error = ''
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
 let g:ale_linters = {
-  \ 'python': ['flake8'],
+  \ 'elixir': ['credo'],
   \ 'go': ['gometalinter'],
   \ 'javascript': ['eslint'],
-  \ 'rust': ['cargo'],
+  \ 'python': ['flake8'],
   \ 'ruby': ['rubocop'],
+  \ 'rust': ['cargo'],
   \ }
 
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'python': ['isort', 'black'],
-  \ 'go': ['gofmt', 'goimports'],
-  \ 'rust': ['rustfmt'],
-  \ 'ruby': ['rubocop', 'rufo'],
   \ 'css': ['prettier'],
+  \ 'elixir': ['mix_format'],
+  \ 'go': ['gofmt', 'goimports'],
   \ 'html': ['prettier'],
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
   \ 'markdown': ['prettier'],
+  \ 'python': ['isort', 'black'],
+  \ 'ruby': ['rubocop', 'rufo'],
+  \ 'rust': ['rustfmt'],
   \ 'scss': ['prettier'],
   \ 'typescript': ['prettier'],
   \ 'yaml': ['prettier'],
