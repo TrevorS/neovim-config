@@ -129,6 +129,8 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
   \ 'elixir': ['~/bin/elixir-ls/language_server.sh'],
+  \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+  \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
   \ 'python': ['pyls'],
   \ 'ruby': ['solargraph', 'stdio'],
   \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
